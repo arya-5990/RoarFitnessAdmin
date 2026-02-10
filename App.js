@@ -11,6 +11,13 @@ import DashboardScreen from './src/screens/DashboardScreen';
 import BlogsListScreen from './src/screens/BlogsListScreen';
 import HomeScreen from './src/screens/HomeScreen'; // Keep for reference if needed, but not primary
 
+import ProgramsScreen from './src/screens/ProgramsScreen';
+import FAQScreen from './src/screens/FAQScreen';
+import TestimonialsScreen from './src/screens/TestimonialsScreen';
+import BasicDetailsScreen from './src/screens/BasicDetailsScreen';
+import TrainersScreen from './src/screens/TrainersScreen';
+import TransformationScreen from './src/screens/TransformationScreen';
+
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +56,13 @@ export default function App() {
             <Stack.Screen name="Dashboard" component={DashboardScreen} />
             <Stack.Screen name="BlogsList" component={BlogsListScreen} />
             <Stack.Screen name="Components" component={HomeScreen} />
+
+            <Stack.Screen name="Programs" component={ProgramsScreen} />
+            <Stack.Screen name="FAQ" component={FAQScreen} />
+            <Stack.Screen name="Testimonials" component={TestimonialsScreen} />
+            <Stack.Screen name="BasicDetails" component={BasicDetailsScreen} />
+            <Stack.Screen name="Trainers" component={TrainersScreen} />
+            <Stack.Screen name="Transformation" component={TransformationScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
