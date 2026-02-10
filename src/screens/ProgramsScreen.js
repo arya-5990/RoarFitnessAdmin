@@ -84,6 +84,9 @@ export default function ProgramsScreen() {
     const [planType, setPlanType] = useState('');
     const [price, setPrice] = useState('');
     const [duration, setDuration] = useState('');
+    const [description, setDescription] = useState('');
+    const [facilities, setFacilities] = useState([]);
+    const [currentFacility, setCurrentFacility] = useState('');
 
     // Fetch Programs
     useEffect(() => {
@@ -110,12 +113,31 @@ export default function ProgramsScreen() {
         setPlanType('');
         setPrice('');
         setDuration('');
+        setDescription('');
+        setFacilities([]);
+        setCurrentFacility('');
         setEditingProgram(null);
+    };
+
+    const handleAddFacility = () => {
+        if (currentFacility.trim().length === 0) return;
+        if (facilities.length >= 4) {
+            Alert.alert("Limit Reached", "You can only add up to 4 facilities.");
+            return;
+        }
+        setFacilities([...facilities, currentFacility.trim()]);
+        setCurrentFacility('');
+    };
+
+    const handleRemoveFacility = (index) => {
+        const newFacilities = [...facilities];
+        newFacilities.splice(index, 1);
+        setFacilities(newFacilities);
     };
 
     const handleSaveProgram = async () => {
         // Validation
-        if (!programType || !planType || !price || !duration) {
+        if (!programType || !planType || !price || !duration || !description) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
@@ -128,6 +150,8 @@ export default function ProgramsScreen() {
                 planType,
                 price: parseFloat(price),
                 duration,
+                description,
+                facilities,
             };
 
             if (editingProgram) {
@@ -169,6 +193,8 @@ export default function ProgramsScreen() {
                         setPlanType(program.planType);
                         setPrice(program.price.toString());
                         setDuration(program.duration);
+                        setDescription(program.description || '');
+                        setFacilities(program.facilities || []);
                         setModalVisible(true);
                     }
                 }
@@ -223,6 +249,22 @@ export default function ProgramsScreen() {
                     <Text style={styles.duration}>{item.duration}</Text>
                 </View>
             </View>
+
+            {item.description ? (
+                <Text style={styles.descriptionText} numberOfLines={2}>
+                    {item.description}
+                </Text>
+            ) : null}
+
+            {item.facilities && item.facilities.length > 0 && (
+                <View style={styles.facilitiesContainer}>
+                    {item.facilities.map((facility, index) => (
+                        <View key={index} style={styles.facilityBadge}>
+                            <Text style={styles.facilityBadgeText}>{facility}</Text>
+                        </View>
+                    ))}
+                </View>
+            )}
         </TouchableOpacity>
     );
 
@@ -305,6 +347,55 @@ export default function ProgramsScreen() {
                                 placeholder="e.g. 4 Weeks, 12 Months"
                                 style={styles.inputContainer}
                             />
+
+                            <Input
+                                label="Description"
+                                value={description}
+                                onChangeText={setDescription}
+                                placeholder="Program Description"
+                                multiline
+                                numberOfLines={3}
+                                style={styles.inputContainer}
+                                inputStyle={{ height: 100, textAlignVertical: 'top' }}
+                            />
+
+                            <View style={styles.inputContainer}>
+                                <Text style={styles.inputLabel}>Facilities (Max 4)</Text>
+                                <View style={styles.addFacilityRow}>
+                                    <View style={{ flex: 1, marginRight: spacing.s }}>
+                                        <Input
+                                            value={currentFacility}
+                                            onChangeText={setCurrentFacility}
+                                            placeholder="Add facility"
+                                            style={{ marginBottom: 0 }}
+                                        />
+                                    </View>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.addFacilityButton,
+                                            (facilities.length >= 4 || !currentFacility.trim()) && styles.disabledButton
+                                        ]}
+                                        onPress={handleAddFacility}
+                                        disabled={facilities.length >= 4 || !currentFacility.trim()}
+                                    >
+                                        <Text style={styles.addFacilityButtonText}>Add</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={styles.facilitiesList}>
+                                    {facilities.map((facility, index) => (
+                                        <View key={index} style={styles.facilityChip}>
+                                            <Text style={styles.facilityChipText}>{facility}</Text>
+                                            <TouchableOpacity
+                                                onPress={() => handleRemoveFacility(index)}
+                                                style={styles.removeFacilityButton}
+                                            >
+                                                <Text style={styles.removeFacilityText}>×</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+                                </View>
+                            </View>
 
                             <View style={styles.modalActions}>
                                 <Button
@@ -563,5 +654,88 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    descriptionText: {
+        fontFamily: typography.regular,
+        fontSize: typography.sizes.bodyRegular,
+        color: colors.text.secondary,
+        marginTop: spacing.s,
+    },
+    facilitiesContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: spacing.s,
+        gap: spacing.xs,
+    },
+    facilityBadge: {
+        backgroundColor: colors.background.light,
+        paddingHorizontal: spacing.s,
+        paddingVertical: 4,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colors.border.default,
+        marginRight: spacing.xs,
+        marginBottom: spacing.xs,
+    },
+    facilityBadgeText: {
+        fontFamily: typography.regular,
+        fontSize: typography.sizes.caption,
+        color: colors.text.secondary,
+    },
+    addFacilityRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: spacing.s,
+    },
+    addFacilityButton: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: spacing.m,
+        paddingVertical: 12,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    disabledButton: {
+        backgroundColor: colors.border.default,
+    },
+    addFacilityButtonText: {
+        color: colors.white,
+        fontFamily: typography.medium,
+        fontSize: 14,
+    },
+    facilitiesList: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: spacing.s,
+    },
+    facilityChip: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#E3F2FD',
+        borderRadius: 20,
+        paddingHorizontal: spacing.m,
+        paddingVertical: 6,
+        marginRight: spacing.xs,
+        marginBottom: spacing.xs,
+    },
+    facilityChipText: {
+        color: colors.primary,
+        fontFamily: typography.medium,
+        fontSize: 14,
+        marginRight: spacing.xs,
+    },
+    removeFacilityButton: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    removeFacilityText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: -2,
     },
 });
