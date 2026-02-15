@@ -10,7 +10,7 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.content}>
-                <Text style={styles.header}>FitMaker Admin</Text>
+                <Text style={styles.header}>Roar Fitness Admin</Text>
                 <Text style={styles.subHeader}>UI Theme & Design System</Text>
 
                 <View style={styles.section}>

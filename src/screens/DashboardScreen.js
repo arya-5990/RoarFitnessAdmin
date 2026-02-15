@@ -28,8 +28,8 @@ export default function DashboardScreen({ navigation }) {
                         style={styles.logo}
                         resizeMode="contain"
                     />
-                    <Text style={styles.header}>RoarFitness</Text>
-                    <Text style={styles.subHeader}>Admin Dashboard</Text>
+                    <Text style={styles.header}>Roar Fitness</Text>
+                    <Text style={styles.subHeader}>Admin App</Text>
                 </View>
 
                 <View style={styles.gridContainer}>

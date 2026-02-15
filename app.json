@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AdminApp",
-    "slug": "AdminApp",
+    "name": "Roar Fitness Admin App",
+    "slug": "roar-fitness-admin-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/gym_logo.jpeg",
@@ -17,9 +17,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/gym_logo.jpeg",
         "backgroundColor": "#ffffff"
       },
+      "package": "com.roarfitness.adminapp",
       "edgeToEdgeEnabled": true
     },
     "web": {
@@ -27,6 +28,11 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "39cca59b-285b-4c22-8351-625c136665b8"
+      }
+    }
   }
 }
