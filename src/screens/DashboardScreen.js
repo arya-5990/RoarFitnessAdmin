@@ -17,6 +17,7 @@ export default function DashboardScreen({ navigation }) {
         { title: 'Basic Details', route: 'BasicDetails' },
         { title: 'Trainers', route: 'Trainers' },
         { title: 'Transformation', route: 'Transformation' },
+        { title: 'User Data', route: 'UserData' },
     ];
 
     return (

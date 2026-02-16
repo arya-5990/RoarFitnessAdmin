@@ -17,6 +17,7 @@ import TestimonialsScreen from './src/screens/TestimonialsScreen';
 import BasicDetailsScreen from './src/screens/BasicDetailsScreen';
 import TrainersScreen from './src/screens/TrainersScreen';
 import TransformationScreen from './src/screens/TransformationScreen';
+import UserDataScreen from './src/screens/UserDataScreen';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -63,6 +64,7 @@ export default function App() {
             <Stack.Screen name="BasicDetails" component={BasicDetailsScreen} />
             <Stack.Screen name="Trainers" component={TrainersScreen} />
             <Stack.Screen name="Transformation" component={TransformationScreen} />
+            <Stack.Screen name="UserData" component={UserDataScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
